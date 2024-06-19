@@ -5,14 +5,15 @@ namespace WebApplication12
 {
     public class EFContext : DbContext
     {
-        public static DbSet<Item> Items { get; set; }
+        public DbSet<Item> Items { get; set; } = null!;
         public EFContext()
         {
             Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.("test1");
+            string connectionstring = $"Server=10.1.0.2;Database=test;Uid=root;Pwd=myveryhardandveryhiddenpassword";
+            optionsBuilder.UseMySql(connectionstring, ServerVersion.AutoDetect(connectionstring));
             optionsBuilder.LogTo(message => System.Diagnostics.Debug.WriteLine(message), LogLevel.Error);
         }
         protected override void OnModelCreating(ModelBuilder model)

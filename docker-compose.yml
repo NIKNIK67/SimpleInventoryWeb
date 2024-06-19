@@ -1,5 +1,12 @@
 version: '3.4'
-
+networks:
+  servicenetwork:
+    driver: bridge
+    ipam:
+        config:
+            - subnet: 10.1.0.0/24
+              gateway: 10.1.0.1
+       
 volumes:
   my_volume:
     driver: local
@@ -10,12 +17,21 @@ services:
     build:
       context: .
       dockerfile: WebApplication12/Dockerfile
+    networks:
+        servicenetwork:
+            ipv4_address: 10.1.0.3
   mysql_server:
     image: mysql
     restart: always
+    expose:
+    - "3306:3306"
     ports: 
     - "127.0.0.1:3306:3306"
     volumes:
       - my_volume:/datadir:/var/lib/mysql
+    networks:
+        servicenetwork:
+            ipv4_address: 10.1.0.2
     environment:
-      MYSQL_ROOT_PASSWORD: 
+      MYSQL_ROOT_PASSWORD: myveryhardandveryhiddenpassword
+

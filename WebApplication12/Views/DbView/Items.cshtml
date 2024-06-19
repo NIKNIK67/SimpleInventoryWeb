@@ -1,0 +1,55 @@
+﻿@model List<Item>
+
+<table class="table table-responsive table-sm">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>IsDeleted</th>
+            <th>Action</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @{
+            foreach(Item item in Model)
+            {
+                if (item.isDeleted)
+                {
+                    <text>
+                    <tr class="text-decoration-line-through">
+                        <th>@item.id </th>
+                        <td>@item.name </td>
+                        <td>@item.description </td>
+                        <td>@item.isDeleted </td>
+                        <td>
+                            <form asp-controller="DbView" asp-action="DisableItem" method="post">
+                                <input type="hidden" name="id" value="@item.id" />
+                                <button class="btn btn-danger" type="submit">screślić</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </text>
+                }
+                else
+                {
+                    <text>
+                    <tr class="">
+                        <th>@item.id </th>
+                        <td>@item.name </td>
+                        <td>@item.description </td>
+                        <td>@item.isDeleted </td>
+                        <td>
+                            <form asp-controller="DbView" asp-action="DisableItem" method="post">
+                                <input type="hidden" name="id" value="@item.id" />
+                                <button class="btn btn-danger" type="submit">screślić</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </text>
+                }
+            }
+        }
+    </tbody>
+</table>
