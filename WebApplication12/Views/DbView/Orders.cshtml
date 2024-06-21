@@ -1,0 +1,10 @@
+﻿@model List<Order>
+<form asp-controller="DbView" asp-action="CreateOrder" method="post">
+    <button class="btn btn-success" type="submit">New Order</button>
+</form>
+@{
+    foreach(Order order in Model)
+    {
+        await Html.RenderPartialAsync("_Order", order);
+    }
+}

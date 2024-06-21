@@ -6,6 +6,7 @@ namespace WebApplication12
     public class EFContext : DbContext
     {
         public DbSet<Item> Items { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
         public EFContext()
         {
             Database.EnsureCreated();
@@ -24,7 +25,13 @@ namespace WebApplication12
                 entity.Property(x => x.name);
                 entity.Property(x => x.description);
                 entity.Property(x => x.isDeleted);
+                entity.HasMany(x => x.Orders).WithMany(x=>x.Items);
 
+            });
+            model.Entity<Order>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.HasMany(x => x.Items).WithMany(x=>x.Orders);
             });
             base.OnModelCreating(model);
 

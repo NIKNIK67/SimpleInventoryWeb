@@ -1,0 +1,68 @@
+﻿@model Order
+<h1> @Model.Id </h1>
+<div>
+    <form asp-controller="DbView" asp-action="AddItemToOrder" method="post">
+
+        <input type="hidden" name="OrderId" value="@Model.Id" />
+        <input type="number" name="ItemId" placeholder="item id" />
+        <button class="btn btn-success" type="submit">Add</button>
+    </form>
+</div>
+<div>
+    <table class="table table-responsive table-sm">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>IsDeleted</th>
+                <th>Action</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @{
+                if (Model.Items != null)
+                    foreach (Item item in Model.Items)
+                    {
+                        if (item.isDeleted)
+                        {
+                            <text>
+                            <tr class="text-decoration-line-through">
+                                <th>@item.id </th>
+                                <td>@item.name </td>
+                                <td>@item.description </td>
+                                <td>@item.isDeleted </td>
+                                <td>
+                                    <form asp-controller="DbView" asp-action="RemoveFromOrder" method="post">
+                                        <input type="hidden" name="OrderId" value="@Model.Id" />
+                                        <input type="hidden" name="ItemId" value="@item.id" />
+                                        <button class="btn btn-danger" type="submit">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                            <tr class="">
+                                <th>@item.id </th>
+                                <td>@item.name </td>
+                                <td>@item.description </td>
+                                <td>@item.isDeleted </td>
+                                <td>
+                                    <form asp-controller="DbView" asp-action="RemoveFromOrder" method="post">
+                                        <input type="hidden" name="OrderId" value="@Model.Id" />
+                                        <input type="hidden" name="ItemId" value="@item.id" />
+                                        <button class="btn btn-danger" type="submit">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </text>
+                        }
+                    }
+            }
+        </tbody>
+    </table>
+</div>

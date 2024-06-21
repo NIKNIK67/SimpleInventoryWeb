@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication12.Models;
 
 namespace WebApplication12.Controllers
@@ -27,8 +28,41 @@ namespace WebApplication12.Controllers
             }
             else
             {
-                return StatusCode(401, "Object is already Disabled or do not exist");
+                return StatusCode(401, "Object is already disabled or do not exist");
             }
+        }
+        public IActionResult OrderList()
+        {
+            List<Order> orders = _context.Orders.Include(x=>x.Items).ToList();
+            return View("Orders",orders);
+        }
+        public IActionResult CreateOrder() 
+        {
+            _context.Orders.Add(new Order());
+            _context.SaveChanges();
+            return Redirect("OrderList");
+        }
+        public IActionResult AddItemToOrder(int OrderId,int ItemId)
+        {
+            Order order = _context.Orders.Where(x=>x.Id ==  OrderId).Include(x=>x.Items).FirstOrDefault();
+            Item item = _context.Items.Where(x=>x.id ==  ItemId).FirstOrDefault();
+            if (order is null || item is null)
+                return StatusCode(401, "Order or Item do not exist");
+            order.Items.Add(item);
+            _context.SaveChanges();
+            return Redirect("OrderList");
+        }
+        public IActionResult RemoveFromOrder(int OrderId, int ItemId)
+        {
+            Order order = _context.Orders.Where(x => x.Id == OrderId).Include(x => x.Items).FirstOrDefault();
+            Item item = _context.Orders.Where(x => x.Id == OrderId).Include(x => x.Items).FirstOrDefault().Items.Where(x=>x.id == ItemId).FirstOrDefault();
+            if (order is null || item is null)
+                return StatusCode(401, "Order or Item do not exist");
+            order.Items.Remove(item);
+            _context.SaveChanges();
+
+            return Redirect("OrderList");
+
         }
     }
 }
