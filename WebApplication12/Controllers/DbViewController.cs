@@ -64,5 +64,27 @@ namespace WebApplication12.Controllers
             return Redirect("OrderList");
 
         }
+        public IActionResult RemoveOrder(int OrderId) 
+        {
+
+            Order order = _context.Orders.Where(x => x.Id == OrderId).FirstOrDefault();
+            if(order is null)
+            {
+                return StatusCode(401,"such order do not exist");
+            }
+            _context.Orders.Remove(order);
+            _context.SaveChanges();
+            return Redirect("OrderList");
+        }
+        public IActionResult RegisterView() 
+        {
+            return View("Register");
+
+        }
+        public IActionResult LoginView()
+        {
+            return View("Login");
+        }
+        
     }
 }

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace WebApplication12
 {
     public class Program
@@ -9,6 +11,13 @@ namespace WebApplication12
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<EFContext>();
+            builder.Services.AddSession();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+            { 
+                option.AccessDeniedPath = "/DbView/LoginView";
+                option.LoginPath = "/DbView/LoginView";
+            });
+            builder.Services.AddAuthorization();
             var app = builder.Build();
             using (var scope = app.Services.CreateScope())
             {

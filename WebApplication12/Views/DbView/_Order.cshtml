@@ -1,12 +1,20 @@
 ﻿@model Order
 <h1> @Model.Id </h1>
-<div>
-    <form asp-controller="DbView" asp-action="AddItemToOrder" method="post">
+<div class="row">
+    <div class="col-3">
+        <form asp-controller="DbView" asp-action="AddItemToOrder" method="post">
 
-        <input type="hidden" name="OrderId" value="@Model.Id" />
-        <input type="number" name="ItemId" placeholder="item id" />
-        <button class="btn btn-success" type="submit">Add</button>
-    </form>
+            <input type="hidden" name="OrderId" value="@Model.Id" />
+            <input type="number" name="ItemId" placeholder="item id" />
+            <button class="btn btn-success" type="submit">Add</button>
+        </form>
+    </div>
+   <div class="col-2">
+        <form asp-controller="DbView" asp-action="RemoveOrder" method="post">
+            <input type="hidden" name="OrderId" value="@Model.Id" />
+            <button class="btn btn-danger" type="submit">Remove Order</button>
+        </form>
+   </div>
 </div>
 <div>
     <table class="table table-responsive table-sm">

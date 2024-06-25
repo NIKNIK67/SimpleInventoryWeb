@@ -7,6 +7,7 @@ namespace WebApplication12
     {
         public DbSet<Item> Items { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
         public EFContext()
         {
             Database.EnsureCreated();
@@ -32,6 +33,12 @@ namespace WebApplication12
             {
                 entity.HasKey(x => x.Id);
                 entity.HasMany(x => x.Items).WithMany(x=>x.Orders);
+            });
+            model.Entity<User>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.Email);
+                entity.Property(x => x.Password);
             });
             base.OnModelCreating(model);
 
