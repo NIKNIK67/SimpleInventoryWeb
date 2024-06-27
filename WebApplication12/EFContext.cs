@@ -33,12 +33,14 @@ namespace WebApplication12
             {
                 entity.HasKey(x => x.Id);
                 entity.HasMany(x => x.Items).WithMany(x=>x.Orders);
+                entity.HasOne(x => x.User).WithMany(x => x.Orders);
             });
             model.Entity<User>(entity =>
             {
                 entity.HasKey(x => x.Id);
                 entity.Property(x => x.Email);
                 entity.Property(x => x.Password);
+                entity.HasMany(x=>x.Orders).WithOne(x=>x.User);
             });
             base.OnModelCreating(model);
 

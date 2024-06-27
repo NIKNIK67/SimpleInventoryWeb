@@ -1,5 +1,6 @@
 ﻿@model Order
-<h1> @Model.Id </h1>
+<h1> Order Id: @Model.Id </h1>
+<h1> User creator Id: @Model.User.Id </h1>
 <div class="row">
     <div class="col-3">
         <form asp-controller="DbView" asp-action="AddItemToOrder" method="post">

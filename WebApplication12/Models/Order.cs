@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public List<Item> Items { get; set; }
+        public User User { get; set; }
         public DateTime DateTime { get; set; }
     }
 }
